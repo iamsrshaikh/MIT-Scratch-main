@@ -1,15 +1,16 @@
 import React, { useState } from "react";
-import { useSelector, useDispatch } from "react-redux"; // Use Redux hooks
-import { setCharacterAngle } from "../../redux/character/characterSlice"; // Import from characterSlice
+import { useSelector, useDispatch } from "react-redux";
+
 import RedoIcon from "@material-ui/icons/Redo";
 import Paper from "@material-ui/core/Paper";
 
+import { setCharacterAngle } from "../../redux/character/characterSlice";
+
 const TurnClockWise = ({ comp_id }) => {
   const [angle, setAngle] = useState(0);
-  const dispatch = useDispatch(); // Hook to dispatch actions
-  const character = useSelector((state) => state.character); // Selector to get character state
+  const dispatch = useDispatch();
+  const character = useSelector((state) => state.character);
 
-  // handle turn clockwise component
   const handleClick = () => {
     const el = document.getElementById(character.active);
     const character_angle = character.characters.find(
@@ -17,7 +18,7 @@ const TurnClockWise = ({ comp_id }) => {
     );
     if (character_angle) {
       el.style.transform = `rotate(${character_angle.angle + angle}deg)`;
-      dispatch(setCharacterAngle(character_angle.angle + angle)); // Dispatch updated angle
+      dispatch(setCharacterAngle(character_angle.angle + angle));
     }
   };
 

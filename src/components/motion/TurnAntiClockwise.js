@@ -1,15 +1,16 @@
 import React, { useState } from "react";
-import { useSelector, useDispatch } from "react-redux"; // Use Redux hooks
-import { setCharacterAngle } from "../../redux/character/characterSlice"; // Import from characterSlice
+import { useSelector, useDispatch } from "react-redux"; 
+
 import UndoIcon from "@material-ui/icons/Undo";
 import Paper from "@material-ui/core/Paper";
 
+import { setCharacterAngle } from "../../redux/character/characterSlice";
+
 const TurnAntiClockWise = ({ comp_id }) => {
   const [angle, setAngle] = useState(0);
-  const dispatch = useDispatch(); // Hook to dispatch actions
-  const character = useSelector((state) => state.character); // Selector to get character state
+  const dispatch = useDispatch();
+  const character = useSelector((state) => state.character); 
 
-  // handle anti-clockwise rotation
   const handleClick = () => {
     let anti_angle = -1 * angle;
     const el = document.getElementById(character.active);

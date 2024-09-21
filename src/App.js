@@ -31,21 +31,37 @@ function App() {
  
   const onDragEnd = (result) => {
     if (!result.destination) return; // Check if the item was dropped outside
-
+  
     const old_list = [...area_list.midAreaLists];
     const source_index = old_list.findIndex(
       (x) => x.id === result.source.droppableId
     );
-
+  
+    // Dragging from Sidebar
+    if (result.source.droppableId.startsWith("sideArea")) {
+      const newComponent = result.draggableId.split("-")[0]; // Get the component name
+      const dest_index = old_list.findIndex(
+        (x) => x.id === result.destination.droppableId
+      );
+  
+      if (dest_index > -1) {
+        const dest_list = [...old_list[dest_index].comps];
+        dest_list.splice(result.destination.index, 0, newComponent); // Add new component to the destination list
+        dispatch(setList({ id: old_list[dest_index].id, list: dest_list }));
+      }
+      return; // Exit after handling the addition
+    }
+  
+    // Dragging within MidArea
     if (source_index > -1) {
       const source_list = [...old_list[source_index].comps];
       const [movedItem] = source_list.splice(result.source.index, 1);
       dispatch(setList({ id: old_list[source_index].id, list: source_list }));
-
+  
       const dest_index = old_list.findIndex(
         (x) => x.id === result.destination.droppableId
       );
-
+  
       if (dest_index > -1) {
         const dest_list = [...old_list[dest_index].comps];
         dest_list.splice(result.destination.index, 0, movedItem);
@@ -54,13 +70,14 @@ function App() {
     }
   };
   
+  
   return (
     <div className="bg-blue-100 font-sans">
       <div className={classes.root}>
         <AppBar position="static">
           <Toolbar>
             <Typography variant="h6" className={classes.title}>
-              MIT Scratch Clone
+              MIT Scratch
             </Typography>
             <Button color="inherit">
               <GitHubIcon

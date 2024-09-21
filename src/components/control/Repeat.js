@@ -1,24 +1,24 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { setRepeat } from "../../redux/events/eventSlice";
+
 import Paper from "@material-ui/core/Paper";
+
+import { setRepeat } from "../../redux/events/eventSlice";
 
 const Repeat = ({ comp_id }) => {
   const [repeat, setStateRepeat] = useState(0);
-  const events = useSelector((state) => state.event); // Accessing events from the Redux store
-  const dispatch = useDispatch(); // Hook to dispatch actions
+  const events = useSelector((state) => state.event)
+  const dispatch = useDispatch();
 
-  // Set Repeat value for current component
   function handleChange(e) {
     let val = parseInt(e.target.value);
     setStateRepeat(val);
-    let curr = { ...events.repeat }; // Creating a copy of the current repeat object
+    let curr = { ...events.repeat };
     curr[comp_id] = val;
-    dispatch(setRepeat(curr)); // Dispatching the action from Redux Toolkit slice
+    dispatch(setRepeat(curr));
   }
 
   return (
-    // Repeat Component
     <Paper elevation={3}>
       <div className="rounded text-center bg-red-400 p-2 my-3">
         <div className="grid grid-cols-2 my-2">

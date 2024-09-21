@@ -1,30 +1,34 @@
 import React, { useState } from "react";
-import { connect } from "react-redux";
+import { useSelector } from "react-redux"; 
 import Paper from "@material-ui/core/Paper";
 
-const SayMessageWithTimer = ({ character, comp_id }) => {
+const SayMessageWithTimer = ({ comp_id }) => {
   const [state, setState] = useState({
     show_msg: false,
     timer_message: "",
     timer_for_msg: 0,
   });
 
-  /* Display Message with Timer */
+  const character = useSelector((state) => state.character);
+
+
   const displayMessage = () => {
     const el = document.getElementById(`${character.active}-message-box`);
     const el2 = document.getElementById(`${character.active}-message-box1`);
     el2.style.display = "none";
+
     if (state.show_msg) {
       setState({ ...state, show_msg: false });
       el.style.display = "none";
       return;
     }
-    setState({ ...state, show_msg: true });
 
+    setState({ ...state, show_msg: true });
     el.style.display = "block";
     el.style.position = "relative";
 
     el.innerHTML = state.timer_message;
+
     window.setTimeout(() => {
       setState({ ...state, show_msg: false });
       el.style.display = "none";
@@ -61,7 +65,7 @@ const SayMessageWithTimer = ({ character, comp_id }) => {
         <div
           id={comp_id}
           className="flex flex-row flex-wrap text-center bg-purple-700 text-white px-2 py-1 my-2 text-sm cursor-pointer"
-          onClick={() => displayMessage()}
+          onClick={displayMessage}
         >
           {`Say ${state.timer_message}`}
         </div>
@@ -70,11 +74,4 @@ const SayMessageWithTimer = ({ character, comp_id }) => {
   );
 };
 
-// mapping state to component
-const mapStateToProps = (state) => {
-  return {
-    character: state.character,
-  };
-};
-
-export default connect(mapStateToProps)(SayMessageWithTimer);
+export default SayMessageWithTimer;

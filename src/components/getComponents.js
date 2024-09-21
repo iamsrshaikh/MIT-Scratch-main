@@ -1,4 +1,5 @@
 import React from "react";
+
 import Move from "./motion/Move";
 import TurnAntiClockwise from "./motion/TurnAntiClockwise";
 import TurnClockwise from "./motion/TurnClockwise";
@@ -16,7 +17,6 @@ import BroadcastMessage from "./events/broadcast";
 import Think from "./looks/Think";
 import ThinkWithTimer from "./looks/ThinkWithTimer";
 
-// fetch components based on different keys
 export const getComponent = (key, id) => {
   switch (key) {
     case "MOVE_Y":

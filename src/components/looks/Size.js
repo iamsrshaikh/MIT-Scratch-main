@@ -1,15 +1,17 @@
 import React, { useState } from "react";
-import { connect } from "react-redux";
+import { useSelector } from "react-redux";
 import Paper from "@material-ui/core/Paper";
 
-const Size = ({ character, comp_id }) => {
-  const [state, setState] = useState({
-    scale: 1,
-  });
+const Size = ({ comp_id }) => {
+  const [scale, setScale] = useState(1); 
+  const character = useSelector((state) => state.character); 
+
   // To change Size of Sprint
   const changeSize = () => {
     const el = document.getElementById(character.active);
-    el.style.transform = `scale(${state.scale})`;
+    if (el) {
+      el.style.transform = `scale(${scale})`;
+    }
   };
 
   return (
@@ -20,29 +22,20 @@ const Size = ({ character, comp_id }) => {
           <input
             className="mx-2 p-1 py-0 text-center"
             type="number"
-            value={state.scale}
-            onChange={(e) =>
-              setState({ ...state, scale: parseInt(e.target.value) })
-            }
+            value={scale}
+            onChange={(e) => setScale(parseInt(e.target.value) || 1)}
           />
         </div>
         <div
           id={comp_id}
           className="text-center bg-purple-700 text-white px-2 py-1 my-2 text-sm cursor-pointer"
-          onClick={() => changeSize()}
+          onClick={changeSize}
         >
-          Size {state.scale}
+          Size {scale}
         </div>
       </div>
     </Paper>
   );
 };
 
-// mapping state to component
-const mapStateToProps = (state) => {
-  return {
-    character: state.character,
-  };
-};
-
-export default connect(mapStateToProps)(Size);
+export default Size;

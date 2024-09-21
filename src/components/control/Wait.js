@@ -1,24 +1,24 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { setWait } from "../../redux/events/eventSlice"; // Updated import
+
 import Paper from "@material-ui/core/Paper";
+
+import { setWait } from "../../redux/events/eventSlice";
 
 const Wait = ({ comp_id }) => {
   const [wait, setStateWait] = useState(0);
-  const events = useSelector((state) => state.event); // Accessing events from the Redux store
-  const dispatch = useDispatch(); // Hook to dispatch actions
+  const events = useSelector((state) => state.event);
+  const dispatch = useDispatch();
 
-  // Set Wait value for current component
   function handleChange(e) {
     let val = parseInt(e.target.value);
     setStateWait(val);
-    let curr = { ...events.wait }; // Creating a copy of the current wait object
+    let curr = { ...events.wait };
     curr[comp_id] = val;
-    dispatch(setWait(curr)); // Dispatching the action from Redux Toolkit slice
+    dispatch(setWait(curr));
   }
 
   return (
-    // Wait Component
     <Paper elevation={3}>
       <div className="text-center rounded bg-red-400 p-2 my-3">
         <div className="grid grid-cols-2 my-2">

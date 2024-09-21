@@ -1,8 +1,7 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux"; // Use hooks from Redux Toolkit
-import { addList } from "../redux/midarea/listSlice"; // Updated import
+import { useDispatch, useSelector } from "react-redux";
+
 import { Droppable, Draggable } from "react-beautiful-dnd";
-import { getComponent } from "./getComponents";
 import { createStyles, makeStyles, withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import AddIcon from "@material-ui/icons/Add";
@@ -10,7 +9,9 @@ import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 import { purple } from "@material-ui/core/colors";
 import Paper from "@material-ui/core/Paper";
 
-// Styling for MaterialUI Components
+import { addList } from "../redux/midarea/listSlice"; 
+import { getComponent } from "./getComponents";
+
 const useStyles = makeStyles(() =>
   createStyles({
     button: {
@@ -19,7 +20,6 @@ const useStyles = makeStyles(() =>
   })
 );
 
-// Customized button for Running Lists
 const RunButton = withStyles((theme) => ({
   root: {
     color: theme.palette.getContrastText(purple[500]),
@@ -31,7 +31,6 @@ const RunButton = withStyles((theme) => ({
   },
 }))(Button);
 
-// Mid Area Component
 function MidArea() {
   const classes = useStyles();
   const dispatch = useDispatch(); // Initialize dispatch
@@ -195,4 +194,4 @@ function MidArea() {
   );
 }
 
-export default MidArea; // No need to connect since we're using hooks
+export default MidArea;

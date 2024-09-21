@@ -1,5 +1,6 @@
 import React from "react";
 import { Draggable, Droppable } from "react-beautiful-dnd";
+
 import { getComponent } from "./getComponents";
 import {
   motionComponents,
@@ -14,7 +15,6 @@ export default function Sidebar() {
       <div className="font-bold mb-5 text-center border border-2 rounded text-white bg-green-400 p-2 w-auto">
         Side Bar
       </div>
-      {/* Motion */}
       <div className="font-bold"> {"Motion"} </div>
       <Droppable droppableId="sideArea-motion" type="COMPONENTS">
         {(provided) => (

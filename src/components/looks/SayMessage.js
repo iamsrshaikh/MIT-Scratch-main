@@ -1,14 +1,16 @@
 import React, { useState } from "react";
-import { connect } from "react-redux";
+import { useSelector } from "react-redux";
 import Paper from "@material-ui/core/Paper";
 
-const SayMessage = ({ character, comp_id }) => {
+const SayMessage = ({ comp_id }) => {
   const [state, setState] = useState({
     show_msg: false,
     message: "",
     character_id: "",
   });
-  /* Display Message */
+
+  const character = useSelector((state) => state.character);
+
   const displayMessage = () => {
     const el = document.getElementById(`${character.active}-message-box`);
     const el2 = document.getElementById(`${character.active}-message-box1`);
@@ -18,7 +20,8 @@ const SayMessage = ({ character, comp_id }) => {
       el.style.display = "none";
       return;
     }
-    setState({ ...state, show_msg: true });
+
+    setState({ ...state, show_msg: true, character_id: character.active }); // Update character_id
     el.style.display = "block";
     el.style.position = "relative";
 
@@ -46,7 +49,7 @@ const SayMessage = ({ character, comp_id }) => {
         <div
           id={comp_id}
           className="flex text-center flex-row flex-wrap bg-purple-700 text-white px-2 py-1 my-2 text-sm cursor-pointer"
-          onClick={() => displayMessage()}
+          onClick={displayMessage}
         >
           {`Say ${state.message}`}
         </div>
@@ -55,11 +58,4 @@ const SayMessage = ({ character, comp_id }) => {
   );
 };
 
-// mapping state to component
-const mapStateToProps = (state) => {
-  return {
-    character: state.character,
-  };
-};
-
-export default connect(mapStateToProps)(SayMessage);
+export default SayMessage;
