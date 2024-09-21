@@ -1,7 +1,4 @@
 import React from "react";
-import Sidebar from "./components/Sidebar";
-import MidArea from "./components/MidArea";
-import PreviewArea from "./components/PreviewArea";
 import { DragDropContext } from "react-beautiful-dnd";
 import { useDispatch, useSelector } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
@@ -10,7 +7,12 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import GitHubIcon from "@material-ui/icons/GitHub";
-import { setList } from "./redux/midarea/listSlice"; // Import the correct action
+
+import Sidebar from "./components/Sidebar";
+import MidArea from "./components/MidArea";
+import PreviewArea from "./components/PreviewArea";
+
+import { setList } from "./redux/midarea/listSlice";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,48 +30,35 @@ function App() {
   const classes = useStyles();
   const dispatch = useDispatch();
   const area_list = useSelector((state) => state.list);
- 
+
   const onDragEnd = (result) => {
-    if (!result.destination) return; // Check if the item was dropped outside
+    if (!result.destination) return;
   
+    const element = result.draggableId.split("-")[0];
     const old_list = [...area_list.midAreaLists];
+  
     const source_index = old_list.findIndex(
       (x) => x.id === result.source.droppableId
     );
   
-    // Dragging from Sidebar
-    if (result.source.droppableId.startsWith("sideArea")) {
-      const newComponent = result.draggableId.split("-")[0]; // Get the component name
-      const dest_index = old_list.findIndex(
-        (x) => x.id === result.destination.droppableId
-      );
-  
-      if (dest_index > -1) {
-        const dest_list = [...old_list[dest_index].comps];
-        dest_list.splice(result.destination.index, 0, newComponent); // Add new component to the destination list
-        dispatch(setList({ id: old_list[dest_index].id, list: dest_list }));
-      }
-      return; // Exit after handling the addition
-    }
-  
-    // Dragging within MidArea
+    // Handle dragging from Mid Area
     if (source_index > -1) {
       const source_list = [...old_list[source_index].comps];
-      const [movedItem] = source_list.splice(result.source.index, 1);
-      dispatch(setList({ id: old_list[source_index].id, list: source_list }));
+      source_list.splice(result.source.index, 1); // Remove the dragged item
+      dispatch(setList({ id: old_list[source_index].id, list: source_list })); // Update the source list in state
+    }
   
-      const dest_index = old_list.findIndex(
-        (x) => x.id === result.destination.droppableId
-      );
+    const dest_index = old_list.findIndex(
+      (x) => x.id === result.destination.droppableId
+    );
   
-      if (dest_index > -1) {
-        const dest_list = [...old_list[dest_index].comps];
-        dest_list.splice(result.destination.index, 0, movedItem);
-        dispatch(setList({ id: old_list[dest_index].id, list: dest_list }));
-      }
+    // Handle dropping in another Mid Area or Sidebar
+    if (dest_index > -1) {
+      const dest_list = [...old_list[dest_index].comps];
+      dest_list.splice(result.destination.index, 0, `${element}`); // Add the dragged item to the destination
+      dispatch(setList({ id: old_list[dest_index].id, list: dest_list })); // Update the destination list in state
     }
   };
-  
   
   return (
     <div className="bg-blue-100 font-sans">
@@ -77,13 +66,15 @@ function App() {
         <AppBar position="static">
           <Toolbar>
             <Typography variant="h6" className={classes.title}>
-              MIT Scratch
+              Scratch App Clone
             </Typography>
             <Button color="inherit">
               <GitHubIcon
                 onClick={() =>
-                  (window.location.href =
-                    "https://github.com/peeyush14goyal/MIT-Scratch-Clone")
+                  window.open(
+                    "https://github.com/iamsrshaikh/MIT-Scratch-main",
+                    "_blank"
+                  )
                 }
               />
             </Button>
