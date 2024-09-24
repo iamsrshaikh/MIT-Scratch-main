@@ -5,11 +5,13 @@ This project showcases the core features of MIT Scratch, enhanced with Redux Too
 
 # Tech Stack
 - ReactJS: For building user interfaces.
-- Libraries:
 - TailwindCSS: For styling and layout.
 - Notistack: For notifications and alerts.
 - Redux Toolkit: For efficient state management.
 - Material UI: For UI components and design.
+
+  The Project is deployed using netlify for desktop
+  Deployment Link:  https://sarfaraj-scratch-app-clone.netlify.app/ 
 
 To get started:
 
