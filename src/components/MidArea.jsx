@@ -1,8 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-
 import { Droppable, Draggable } from "react-beautiful-dnd";
-import { createStyles, makeStyles, withStyles } from "@mui/material/styles";
+import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 import AddIcon from "@mui/icons-material/Add";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
@@ -12,51 +11,46 @@ import Paper from "@mui/material/Paper";
 import { addList } from "../redux/midarea/listSlice"; 
 import { getComponent } from "./getComponents.jsx";
 
-const useStyles = makeStyles(() =>
-  createStyles({
-    button: {
-      margin: 0,
-    },
-  })
-);
+// Styled Components
+const StyledButton = styled(Button)(({ theme }) => ({
+  margin: 0,
+}));
 
-const RunButton = withStyles((theme) => ({
-  root: {
-    color: theme.palette.getContrastText(purple[500]),
-    backgroundColor: purple[500],
-    fontSize: "13px",
-    "&:hover": {
-      backgroundColor: purple[700],
-    },
+const RunButton = styled(Button)(({ theme }) => ({
+  color: theme.palette.getContrastText(purple[500]),
+  backgroundColor: purple[500],
+  fontSize: "13px",
+  "&:hover": {
+    backgroundColor: purple[700],
   },
-}))(Button);
+}));
+
+const StyledPaper = styled(Paper)({
+  padding: '16px',
+});
 
 function MidArea() {
-  const classes = useStyles();
-  const dispatch = useDispatch(); // Initialize dispatch
-  const area_list = useSelector((state) => state.list); // Select area list from state
-  const event_values = useSelector((state) => state.event); // Select event values from state
+  const dispatch = useDispatch();
+  const area_list = useSelector((state) => state.list);
+  const event_values = useSelector((state) => state.event);
 
   const eventFire = (el, etype) => {
     if (el && el.fireEvent) {
       el.fireEvent("on" + etype);
     } else if (el) {
-      var evObj = document.createEvent("Events");
+      const evObj = document.createEvent("Events");
       evObj.initEvent(etype, true, false);
       el.dispatchEvent(evObj);
     }
   };
 
-  // Handle Running the list
   const handleClick = (arr, id) => {
     if (arr.length === 0) return;
     let i = 0;
-
     let repeat = 1;
 
     let str1 = `comp${arr[i]}-${id}-${i}`;
 
-    // Handle Wait at first index
     if (arr[i] === "WAIT") {
       let str2 = `comp${arr[i]}-${id}-${i}`;
       let last_time = new Date().getTime();
@@ -65,23 +59,18 @@ function MidArea() {
       while ((curr_time - last_time) / 1000 < event_values.wait[str2] - 2) {
         curr_time = new Date().getTime();
       }
-    }
-
-    // Handle Repeat at first index
-    else if (arr[i] !== "REPEAT") {
+    } else if (arr[i] !== "REPEAT") {
       eventFire(document.getElementById(str1), "click");
     } else {
       repeat = event_values.repeat[str1] + 1;
     }
     i++;
 
-    /* Each function execution takes 2 seconds */
-    var cnt = setInterval(() => {
+    const cnt = setInterval(() => {
       if (i === arr.length) {
         clearInterval(cnt);
       }
 
-      // Handle Wait
       if (arr[i] === "WAIT") {
         let str2 = `comp${arr[i]}-${id}-${i}`;
         let last_time = new Date().getTime();
@@ -91,15 +80,11 @@ function MidArea() {
           curr_time = new Date().getTime();
         }
         i++;
-      }
-      // Handle Repeat Component at current index
-      else if (arr[i] === "REPEAT") {
+      } else if (arr[i] === "REPEAT") {
         let str2 = `comp${arr[i]}-${id}-${i}`;
         repeat = repeat * (event_values.repeat[str2] + 1);
         i++;
-      }
-      // If Repeat component is at previous index
-      else if (arr[i - 1] === "REPEAT" && repeat > 2) {
+      } else if (arr[i - 1] === "REPEAT" && repeat > 2) {
         let str2 = `comp${arr[i]}-${id}-${i}`;
         eventFire(document.getElementById(str2), "click");
         repeat--;
@@ -119,76 +104,70 @@ function MidArea() {
         </div>
 
         <div>
-          <Button
+          <StyledButton
             variant="contained"
             color="primary"
-            className={classes.button}
             startIcon={<AddIcon />}
-            onClick={() => dispatch(addList())} // Dispatch addList directly
+            onClick={() => dispatch(addList())}
           >
-            Add List{" "}
-          </Button>
+            Add List
+          </StyledButton>
         </div>
       </div>
       <div className="grid grid-flow-col">
-        {area_list.midAreaLists.map((l) => {
-          return (
-            <div className="w-60" key={l.id}>
-              <Paper elevation={3} className="p-4">
-                <div className="w-52 border border-2 border-gray-300 p-2">
-                  <Droppable droppableId={l.id} type="COMPONENTS">
-                    {(provided) => {
-                      return (
-                        <ul
-                          className={`${l.id} w-48 h-full`}
-                          {...provided.droppableProps}
-                          ref={provided.innerRef}
+        {area_list.midAreaLists.map((l) => (
+          <div className="w-60" key={l.id}>
+            <StyledPaper elevation={3}>
+              <div className="w-52 border border-2 border-gray-300 p-2">
+                <Droppable droppableId={l.id} type="COMPONENTS">
+                  {(provided) => (
+                    <ul
+                      className={`${l.id} w-48 h-full`}
+                      {...provided.droppableProps}
+                      ref={provided.innerRef}
+                    >
+                      <div className="text-center mx-auto my-2 mb-4">
+                        <RunButton
+                          variant="contained"
+                          startIcon={<PlayArrowIcon />}
+                          onClick={() => handleClick(l.comps, l.id)}
                         >
-                          <div className="text-center mx-auto my-2 mb-4">
-                            <RunButton
-                              variant="contained"
-                              className={classes.button}
-                              startIcon={<PlayArrowIcon />}
-                              onClick={() => handleClick(l.comps, l.id)}
+                          Run
+                        </RunButton>
+                      </div>
+
+                      {l.comps &&
+                        l.comps.map((x, i) => {
+                          let str = `${x}`;
+                          let component_id = `comp${str}-${l.id}-${i}`;
+
+                          return (
+                            <Draggable
+                              key={`${str}-${l.id}-${i}`}
+                              draggableId={`${str}-${l.id}-${i}`}
+                              index={i}
                             >
-                              Run{" "}
-                            </RunButton>
-                          </div>
-
-                          {l.comps &&
-                            l.comps.map((x, i) => {
-                              let str = `${x}`;
-                              let component_id = `comp${str}-${l.id}-${i}`;
-
-                              return (
-                                <Draggable
-                                  key={`${str}-${l.id}-${i}`}
-                                  draggableId={`${str}-${l.id}-${i}`}
-                                  index={i}
+                              {(provided) => (
+                                <li
+                                  ref={provided.innerRef}
+                                  {...provided.draggableProps}
+                                  {...provided.dragHandleProps}
                                 >
-                                  {(provided) => (
-                                    <li
-                                      ref={provided.innerRef}
-                                      {...provided.draggableProps}
-                                      {...provided.dragHandleProps}
-                                    >
-                                      {getComponent(str, component_id)}
-                                      {provided.placeholder}
-                                    </li>
-                                  )}
-                                </Draggable>
-                              );
-                            })}
-                          {provided.placeholder}
-                        </ul>
-                      );
-                    }}
-                  </Droppable>
-                </div>
-              </Paper>
-            </div>
-          );
-        })}
+                                  {getComponent(str, component_id)}
+                                  {provided.placeholder}
+                                </li>
+                              )}
+                            </Draggable>
+                          );
+                        })}
+                      {provided.placeholder}
+                    </ul>
+                  )}
+                </Droppable>
+              </div>
+            </StyledPaper>
+          </div>
+        ))}
       </div>
     </div>
   );

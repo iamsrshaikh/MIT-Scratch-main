@@ -1,6 +1,6 @@
 import { DragDropContext } from "react-beautiful-dnd";
 import { useDispatch, useSelector } from "react-redux";
-import { makeStyles } from "@mui/material/styles";
+import { styled } from "@mui/material/styles";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
@@ -13,44 +13,40 @@ import PreviewArea from "./components/PreviewArea.jsx";
 
 import { setList } from "./redux/midarea/listSlice";
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-  },
-  menuButton: {
-    marginRight: theme.spacing(2),
-  },
-  title: {
-    flexGrow: 1,
-  },
+// Styled Components
+const Root = styled('div')(({ theme }) => ({
+  flexGrow: 1,
+}));
+
+const Title = styled(Typography)(({ theme }) => ({
+  flexGrow: 1,
 }));
 
 function App() {
-  const classes = useStyles();
   const dispatch = useDispatch();
   const area_list = useSelector((state) => state.list);
 
   const onDragEnd = (result) => {
     if (!result.destination) return;
-  
+
     const element = result.draggableId.split("-")[0];
     const old_list = [...area_list.midAreaLists];
-  
+
     const source_index = old_list.findIndex(
       (x) => x.id === result.source.droppableId
     );
-  
+
     // Handle dragging from Mid Area
     if (source_index > -1) {
       const source_list = [...old_list[source_index].comps];
       source_list.splice(result.source.index, 1); // Remove the dragged item
       dispatch(setList({ id: old_list[source_index].id, list: source_list })); // Update the source list in state
     }
-  
+
     const dest_index = old_list.findIndex(
       (x) => x.id === result.destination.droppableId
     );
-  
+
     // Handle dropping in another Mid Area or Sidebar
     if (dest_index > -1) {
       const dest_list = [...old_list[dest_index].comps];
@@ -58,15 +54,15 @@ function App() {
       dispatch(setList({ id: old_list[dest_index].id, list: dest_list })); // Update the destination list in state
     }
   };
-  
+
   return (
     <div className="bg-blue-100 font-sans">
-      <div className={classes.root}>
+      <Root>
         <AppBar position="static">
           <Toolbar>
-            <Typography variant="h6" className={classes.title}>
+            <Title variant="h6">
               Scratch App Clone
-            </Typography>
+            </Title>
             <Button color="inherit">
               <GitHubIcon
                 onClick={() =>
@@ -79,7 +75,7 @@ function App() {
             </Button>
           </Toolbar>
         </AppBar>
-      </div>
+      </Root>
       <div className="h-screen overflow-hidden flex flex-row pt-6">
         <DragDropContext onDragEnd={onDragEnd}>
           <div className="flex-1 h-screen overflow-hidden flex flex-row bg-white border-t border-r border-gray-200 rounded-tr-xl mr-2">
