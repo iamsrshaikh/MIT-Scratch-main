@@ -1,4 +1,6 @@
-module.exports = {
-    plugins: [require("tailwindcss")],
-  };
-  
+export default {
+  plugins: {
+    tailwindcss: {},
+    autoprefixer: {},
+  },
+}

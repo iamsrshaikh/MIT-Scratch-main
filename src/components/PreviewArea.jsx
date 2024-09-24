@@ -1,13 +1,13 @@
 import React, { useState } from "react";
-import CatSprite from "./CatSprite";
+import CatSprite from "./CatSprite.jsx";
 import { useSelector, useDispatch } from "react-redux"; // Use Redux Toolkit hooks
-import { createStyles, makeStyles } from "@material-ui/core/styles";
-import InputLabel from "@material-ui/core/InputLabel";
-import MenuItem from "@material-ui/core/MenuItem";
-import FormControl from "@material-ui/core/FormControl";
-import Select from "@material-ui/core/Select";
-import Button from "@material-ui/core/Button";
-import AddCircleIcon from "@material-ui/icons/AddCircle";
+import { createStyles, makeStyles } from "@mui/material/styles";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
+import Button from "@mui/material/Button";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
 
 import { setActiveCharacter, addCharacter } from "../redux/character/characterSlice"; // Updated imports from slice
 

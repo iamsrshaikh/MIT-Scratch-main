@@ -1,16 +1,15 @@
-import React from "react";
 import { DragDropContext } from "react-beautiful-dnd";
 import { useDispatch, useSelector } from "react-redux";
-import { makeStyles } from "@material-ui/core/styles";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
-import GitHubIcon from "@material-ui/icons/GitHub";
+import { makeStyles } from "@mui/material/styles";
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
+import GitHubIcon from "@mui/icons-material/GitHub";
 
-import Sidebar from "./components/Sidebar";
-import MidArea from "./components/MidArea";
-import PreviewArea from "./components/PreviewArea";
+import Sidebar from "./components/Sidebar.jsx";
+import MidArea from "./components/MidArea.jsx";
+import PreviewArea from "./components/PreviewArea.jsx";
 
 import { setList } from "./redux/midarea/listSlice";
 

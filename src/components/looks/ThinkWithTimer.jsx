@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import Paper from "@material-ui/core/Paper";
+import Paper from "@mui/material/Paper";
 
 const ThinkWithTimer = ({ comp_id }) => {
   const [state, setState] = useState({

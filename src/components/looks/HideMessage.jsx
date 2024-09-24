@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import Paper from "@material-ui/core/Paper";
+import Paper from "@mui/material/Paper";
 
 const HideMessage = ({ comp_id }) => {
   const character = useSelector((state) => state.character);

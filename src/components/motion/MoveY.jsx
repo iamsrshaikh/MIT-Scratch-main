@@ -1,17 +1,18 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import Paper from "@material-ui/core/Paper";
+import Paper from "@mui/material/Paper";
 
-const Move = ({ comp_id }) => {
+const MoveY = ({ comp_id }) => {
   const [steps, setSteps] = useState(0);
   const character = useSelector((state) => state.character);
+
 
   const handleClick = () => {
     const el = document.getElementById(`${character.active}-div`);
 
-    const left = el.offsetLeft;
+    const top = el.offsetTop;
     el.style.position = "relative";
-    el.style.left = left + steps + "px";
+    el.style.top = top + steps + "px";
   };
 
   return (
@@ -21,7 +22,7 @@ const Move = ({ comp_id }) => {
         className="text-center rounded bg-blue-700 text-white p-2 my-2 text-sm cursor-pointer mx-auto"
         onClick={handleClick}
       >
-        Move X{" "}
+        Move Y{" "}
         <input
           type="number"
           className="text-black text-center w-16 mx-2"
@@ -34,4 +35,4 @@ const Move = ({ comp_id }) => {
   );
 };
 
-export default Move;
+export default MoveY;

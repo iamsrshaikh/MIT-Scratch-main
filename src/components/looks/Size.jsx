@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import Paper from "@material-ui/core/Paper";
+import Paper from "@mui/material/Paper";
 
 const Size = ({ comp_id }) => {
   const [scale, setScale] = useState(1); 

@@ -2,15 +2,15 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { Droppable, Draggable } from "react-beautiful-dnd";
-import { createStyles, makeStyles, withStyles } from "@material-ui/core/styles";
-import Button from "@material-ui/core/Button";
-import AddIcon from "@material-ui/icons/Add";
-import PlayArrowIcon from "@material-ui/icons/PlayArrow";
-import { purple } from "@material-ui/core/colors";
-import Paper from "@material-ui/core/Paper";
+import { createStyles, makeStyles, withStyles } from "@mui/material/styles";
+import Button from "@mui/material/Button";
+import AddIcon from "@mui/icons-material/Add";
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import { purple } from "@mui/material/colors";
+import Paper from "@mui/material/Paper";
 
 import { addList } from "../redux/midarea/listSlice"; 
-import { getComponent } from "./getComponents";
+import { getComponent } from "./getComponents.jsx";
 
 const useStyles = makeStyles(() =>
   createStyles({
